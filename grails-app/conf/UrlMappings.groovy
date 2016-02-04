@@ -7,7 +7,9 @@ class UrlMappings {
 			}
 		}
 
-		"/"(view:"/index")
+		//"/"(view:"/index")
+        "/"(controller: 'picture', action: 'fileBrowser')
+        "/status"(view: '/appStatus')
 		"500"(view:'/error')
 	}
 }

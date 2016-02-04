@@ -1,0 +1,11 @@
+/*
+/*= require library/bootstrap/css/bootstrap.min
+/*= require_self
+*/
+/*Main Application File*/
+
+p.img-description{
+    padding: 10px;
+    color: #737373;
+    text-align: center;
+}

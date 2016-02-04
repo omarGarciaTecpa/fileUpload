@@ -11,6 +11,56 @@
 //    grails.config.locations << "file:" + System.properties["${appName}.config.location"]
 // }
 
+//==================================================     EXTERNALIZANDO CONFIGURACION     ================================================================
+
+if(!grails.config.locations || !(grails.config.locations instanceof List)) { grails.config.locations = []  }
+grails.config.locations << ["classpath:${appName}-config.properties", "classpath:${appName}-config.groovy"]
+
+
+def EXTERNAL_CONFIG_FILES = ["${appName}-datasource-config.groovy", "${appName}-config.groovy"]
+File externalDirectory
+File importFile
+
+String absExternalPath =  "C:/grails-apps/config-files/${appName}"
+String userExternalPath = "${userHome}/grails-apps/config-files/${appName}"
+
+
+
+println "======================================================================================="
+println "LOADING CONFIGURATION"
+println "======================================================================================="
+println "... SEARCHING IN ABSOLUTE PATH ${absExternalPath}"
+
+externalDirectory = new File(absExternalPath)
+if(externalDirectory && externalDirectory.isDirectory()){
+    println (".... CONFIGURATION FOLDER FOUND AT ${absExternalPath}")
+}else{
+    println(".... SEARCHING IN USER FOLDER ${userExternalPath}")
+    externalDirectory = new File(userExternalPath)
+    if(externalDirectory && externalDirectory.isDirectory()){
+        println ("..... CONFIGURATION FOLDER FOUND AT ${userExternalPath}")
+    }else{
+        println ".... NO EXTERNAL CONFIGURATION FILE FOUND. USING IN CODE DEFAULTS"
+        externalDirectory = null
+    }
+}
+
+
+if(externalDirectory){
+    println("\n\n------- IMPORTING FILES FROM CONFIGURATION FOLDER   ----------")
+    for(String configFileName in EXTERNAL_CONFIG_FILES){
+        println("*TRYING TO IMPORT CONFIGURATION FILE: ${configFileName}")
+        importFile =  new File("${externalDirectory.path}\\${configFileName}")
+        if(importFile.exists()){
+            grails.config.locations << "file:${importFile.path}"
+            println("***Importing [${importFile.path}] ")
+        }else{
+            println ("COULD NOT FIND ${configFileName} IN THE CONFIGURATION FOLDER: ${externalDirectory}")
+        }
+    }
+}
+
+
 grails.project.groupId = appName // change this to alter the default package name and Maven publishing destination
 grails.mime.file.extensions = true // enables the parsing of file extensions from URLs into the request format
 grails.mime.use.accept.header = false

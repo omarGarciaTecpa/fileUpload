@@ -42,19 +42,16 @@ grails.project.dependency.resolution = {
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes e.g.
 
         // runtime 'mysql:mysql-connector-java:5.1.22'
+        runtime 'org.imgscalr:imgscalr-lib:4.2'
+
     }
 
     plugins {
         runtime ":hibernate:$grailsVersion"
-        runtime ":jquery:1.8.3"
-        runtime ":resources:1.2.6"
-
-        // Uncomment these (or add new ones) to enable additional resources capabilities
-        //runtime ":zipped-resources:1.0"
-        //runtime ":cached-resources:1.0"
-        //runtime ":yui-minify-resources:0.1.5"
-
         build ":tomcat:$grailsVersion"
+
+        compile "org.grails.plugins:asset-pipeline:2.6.7"
+        provided "org.grails.plugins:less-asset-pipeline:2.6.7"
 
         runtime ":database-migration:1.3.8"
 
